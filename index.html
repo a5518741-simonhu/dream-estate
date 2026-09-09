@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>夢想莊園 Dream Estate</title>
+<style>
+:root{--navy:#071726;--navy2:#0d263b;--gold:#d7b879;--cream:#f8f4ea;--line:rgba(215,184,121,.36);--glass:rgba(4,17,29,.78)}
+*{box-sizing:border-box} html,body{margin:0;background:#07111c;color:#fff;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif} button{font:inherit}
+body{min-height:100vh;overflow-x:hidden}
+.app{min-height:100vh;background:radial-gradient(circle at top,#173858 0,#07111c 45%,#040a10 100%)}
+header{position:fixed;z-index:20;top:0;left:0;right:0;height:76px;display:flex;align-items:center;gap:24px;padding:10px 26px;background:linear-gradient(180deg,rgba(4,17,29,.96),rgba(4,17,29,.72));backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;min-width:235px}.crest{width:48px;height:48px;border:2px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-family:Georgia;font-size:25px;margin-right:12px}.brand h1{font-family:Georgia,"Noto Serif TC",serif;font-size:25px;letter-spacing:.12em;margin:0;color:#f5deb0}.brand small{display:block;color:#cfc7b9;letter-spacing:.28em;font-size:9px;margin-top:3px}
+nav{display:flex;align-items:center;gap:6px;flex:1}.navbtn,.timebtn{border:1px solid transparent;background:transparent;color:#e7edf4;border-radius:12px;padding:11px 15px;cursor:pointer;transition:.2s}.navbtn:hover,.timebtn:hover,.navbtn.active,.timebtn.active{border-color:var(--gold);background:rgba(215,184,121,.12);color:#ffe7b6;box-shadow:0 0 22px rgba(215,184,121,.12)}
+.time{display:flex;gap:5px}.timebtn{padding:9px 11px}
+.map-wrap{position:relative;height:100vh;min-height:720px;padding-top:76px;overflow:hidden}.map-img{position:absolute;inset:76px 0 0;width:100%;height:calc(100% - 76px);object-fit:cover;object-position:center;transition:opacity .55s ease,transform 5s ease}.map-wrap:hover .map-img{transform:scale(1.012)}
+.map-shade{position:absolute;inset:76px 0 0;background:linear-gradient(90deg,rgba(0,12,22,.35),transparent 25%,transparent 74%,rgba(0,12,22,.35)),linear-gradient(0deg,rgba(0,10,18,.55),transparent 35%);pointer-events:none}
+.info{position:absolute;z-index:4;top:106px;left:22px;width:245px;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--glass);backdrop-filter:blur(10px);box-shadow:0 16px 40px rgba(0,0,0,.25)}.info .big{font-size:28px;font-weight:300}.info p{margin:5px 0;color:#dbe6ef;font-size:14px}.info hr{border:0;border-top:1px solid rgba(255,255,255,.14);margin:12px 0}.info .hint{color:#e9cf98;line-height:1.6}
+.hotspot{position:absolute;z-index:5;transform:translate(-50%,-50%);border:0;background:transparent;color:#fff;cursor:pointer;text-align:center;filter:drop-shadow(0 5px 8px rgba(0,0,0,.45))}.pin{width:40px;height:40px;margin:auto;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#f4d38f;border:3px solid #fff3cc;display:grid;place-items:center;box-shadow:0 0 0 6px rgba(0,0,0,.28)}.pin:after{content:"";width:11px;height:11px;border-radius:50%;background:#263747}.hotspot strong{display:block;margin-top:9px;padding:5px 9px;background:rgba(3,13,23,.76);border:1px solid rgba(246,215,151,.55);border-radius:8px;font-size:13px;white-space:nowrap}.hotspot.main .pin{width:56px;height:56px}.hotspot.main strong{font-size:16px;padding:7px 13px}
+.bottom-strip{position:absolute;z-index:7;left:0;right:0;bottom:0;padding:10px 28px 16px;background:linear-gradient(0deg,rgba(3,13,23,.98),rgba(3,13,23,.76),transparent);display:flex;gap:10px;justify-content:center;overflow:auto}.room-chip{min-width:116px;border:1px solid rgba(255,255,255,.2);background:#0c1b28;border-radius:9px;overflow:hidden;color:white;cursor:pointer}.room-chip img{display:block;width:100%;height:68px;object-fit:cover}.room-chip span{display:block;padding:7px;font-size:12px}.room-chip:hover{border-color:var(--gold);box-shadow:0 0 16px rgba(215,184,121,.2)}
+.drawer{position:fixed;z-index:40;top:76px;right:-420px;width:min(420px,92vw);bottom:0;background:rgba(5,18,31,.98);backdrop-filter:blur(15px);border-left:1px solid var(--line);transition:right .35s ease;padding:22px;overflow:auto}.drawer.open{right:0}
+.dome-drawer{position:fixed;z-index:42;top:76px;right:-460px;width:min(460px,94vw);bottom:0;background:rgba(5,18,31,.98);backdrop-filter:blur(15px);border-left:1px solid var(--line);transition:right .35s ease;padding:22px;overflow:auto}
+.dome-drawer.open{right:0}
+.dome-drawer h2{font-family:Georgia,"Noto Serif TC";color:#f5deb0;margin:0 0 5px}
+.dome-drawer .sub{color:#aebdca;font-size:13px;margin-bottom:18px}
+.dome-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.dome-card{border:1px solid rgba(255,255,255,.15);background:#0d2133;border-radius:12px;overflow:hidden;cursor:pointer;text-align:left;color:white}
+.dome-card img{width:100%;height:115px;object-fit:cover;display:block}
+.dome-card div{padding:10px}.dome-card b{display:block}.dome-card small{color:#93a7b8}
+.dome-card:hover{border-color:var(--gold);transform:translateY(-1px)}.drawer h2{font-family:Georgia,"Noto Serif TC";color:#f5deb0;margin:0 0 5px}.drawer .sub{color:#aebdca;font-size:13px;margin-bottom:18px}.close{position:absolute;right:14px;top:14px;border:1px solid #52606b;background:#12293c;color:white;border-radius:8px;padding:7px 10px;cursor:pointer}.floors{display:flex;gap:8px;margin-bottom:18px}.floorbtn{flex:1;border:1px solid #3a5266;background:#0d2133;color:#dfe8ef;padding:10px;border-radius:8px;cursor:pointer}.floorbtn.active{border-color:var(--gold);color:#ffe1a5;background:rgba(215,184,121,.12)}.floorplan{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.room-card{border:1px solid rgba(255,255,255,.15);background:#0d2133;border-radius:12px;overflow:hidden;cursor:pointer;text-align:left;color:white}.room-card img{width:100%;height:115px;object-fit:cover;display:block}.room-card div{padding:10px}.room-card b{display:block}.room-card small{color:#93a7b8}.room-card:hover{border-color:var(--gold);transform:translateY(-1px)}
+.viewer{position:fixed;z-index:60;inset:0;background:#050b10;display:none}.viewer.open{display:block}.scene{position:absolute;inset:0;background-position:center;background-size:cover;transition:background-position .12s linear;filter:saturate(.95)}.scene:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),transparent 22%,transparent 72%,rgba(0,0,0,.62))}.viewer-top{position:absolute;z-index:3;top:0;left:0;right:0;height:74px;display:flex;align-items:center;padding:10px 20px;background:linear-gradient(180deg,rgba(4,14,23,.9),transparent)}.back{border:1px solid rgba(255,255,255,.4);background:rgba(5,19,31,.72);color:white;border-radius:10px;padding:10px 14px;cursor:pointer}.viewer-title{margin-left:18px}.viewer-title b{font-size:22px;color:#f4ddb0}.viewer-title small{display:block;color:#c7d3dd}.viewer-bottom{position:absolute;z-index:3;left:50%;bottom:24px;transform:translateX(-50%);display:flex;gap:10px;background:rgba(5,18,31,.74);border:1px solid var(--line);border-radius:14px;padding:9px;backdrop-filter:blur(10px)}.viewer-bottom button{border:1px solid rgba(255,255,255,.25);background:#0d2133;color:#fff;border-radius:9px;padding:10px 16px;cursor:pointer}.viewer-note{position:absolute;z-index:3;right:24px;bottom:104px;width:min(330px,72vw);padding:16px;background:rgba(248,244,234,.9);color:#443826;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25)}.viewer-note h3{margin:0 0 7px;color:#6d552f}.viewer-note p{margin:0;line-height:1.6;font-size:14px}.drag-hint{position:absolute;z-index:3;left:50%;top:95px;transform:translateX(-50%);padding:7px 12px;border-radius:16px;background:rgba(0,0,0,.45);font-size:12px;color:#dde7ef}
+@media(max-width:900px){header{height:68px;padding:8px 12px}.brand{min-width:0}.brand h1{font-size:19px}.brand small{display:none}.crest{width:40px;height:40px;font-size:20px}.navbtn{display:none}.time{margin-left:auto}.map-wrap{padding-top:68px}.map-img,.map-shade{inset-top:68px}.info{top:86px;left:12px;width:205px;padding:13px}.info .big{font-size:22px}.hotspot strong{font-size:11px}.bottom-strip{justify-content:flex-start;padding-left:10px}.room-chip{min-width:95px}.room-chip img{height:54px}.viewer-note{right:12px;bottom:92px}.viewer-bottom{bottom:18px}.hotspot.facility{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header>
+  <div class="brand"><div class="crest">R</div><div><h1>夢想莊園</h1><small>DREAM ESTATE</small></div></div>
+  <nav><button class="navbtn active">莊園總覽</button><button class="navbtn" onclick="openDrawer()">室內探索</button><button class="navbtn">戶外設施</button><button class="navbtn">收藏與成就</button></nav>
+  <div class="time"><button class="timebtn active" data-scene="day">☀ 白天</button><button class="timebtn" data-scene="sunset">◐ 黃昏</button><button class="timebtn" data-scene="night">☾ 夜晚</button></div>
+</header>
+<section class="map-wrap">
+  <img id="estateImg" class="map-img" src="assets/estate-day.jpg" alt="夢想莊園鳥瞰圖" />
+  <div class="map-shade"></div>
+  <aside class="info"><div>☀ <span class="big">12:00</span></div><p>6 月 21 日・晴朗</p><p>氣溫：32°C</p><p>莊園狀態：開放參觀</p><hr><p class="hint">點選地圖上的位置標記，進入主建築與各個空間參觀。</p></aside>
+  <button class="hotspot main" style="left:50%;top:50%" onclick="openDrawer()"><span class="pin"></span><strong>主建築・進入參觀</strong></button>
+  <button class="hotspot facility" style="left:34%;top:27%"><span class="pin"></span><strong>網球場</strong></button>
+  <button class="hotspot facility" style="left:64%;top:27%"><span class="pin"></span><strong>籃球場</strong></button>
+  <button class="hotspot facility" style="left:50%;top:21%" onclick="openDome()"><span class="pin"></span><strong>圓頂會館</strong></button>
+  <button class="hotspot facility" style="left:80%;top:35%"><span class="pin"></span><strong>景觀湖</strong></button>
+  <button class="hotspot facility" style="left:16%;top:50%"><span class="pin"></span><strong>迷宮花園</strong></button>
+  <div class="bottom-strip" id="bottomStrip"></div>
+</section>
+</div>
+
+<aside class="dome-drawer" id="domeDrawer">
+  <button class="close" onclick="closeDome()">✕</button>
+  <h2>圓頂會館</h2>
+  <div class="sub">選擇設施，進入圓頂會館各空間參觀。</div>
+  <div id="domeGrid" class="dome-grid"></div>
+</aside>
+<aside class="drawer" id="drawer"><button class="close" onclick="closeDrawer()">✕</button><h2>主建築室內探索</h2><div class="sub">選擇樓層，再點選房間進入參觀。</div><div class="floors"><button class="floorbtn" data-floor="B1">地下室</button><button class="floorbtn active" data-floor="1F">一樓</button><button class="floorbtn" data-floor="2F">二樓</button><button class="floorbtn" data-floor="3F">三樓</button></div><div id="floorplan" class="floorplan"></div></aside>
+<div class="viewer" id="viewer"><div class="scene" id="scene"></div><div class="viewer-top"><button class="back" onclick="closeViewer()">← 返回位置圖</button><div class="viewer-title"><b id="viewerName"></b><small id="viewerFloor"></small></div></div><div class="drag-hint">↔ 拖曳畫面，模擬環視房間</div><div class="viewer-note"><h3 id="noteTitle"></h3><p id="noteText"></p></div><div class="viewer-bottom"><button onclick="prevRoom()">‹ 上一間</button><button onclick="openDrawerFromViewer()">位置圖</button><button onclick="nextRoom()">下一間 ›</button></div></div>
+<script>
+const rooms=[
+{id:'lobby',name:'大廳',floor:'1F',img:'assets/lobby.jpg',note:'莊園的迎賓核心，連接客廳、餐廳與中央庭院。'},
+{id:'living',name:'客廳',floor:'1F',img:'assets/living.jpg',note:'以明亮暖色與大片採光為主，適合家人休憩與接待賓客。'},
+{id:'dining',name:'餐廳',floor:'1F',img:'assets/dining.jpg',note:'正式餐敘空間，可由大廳與庭院兩側進入。'},
+{id:'prayer',name:'祈禱室（高榮室風格）',floor:'3F',img:'assets/prayer-room.jpg',note:'純白、寧靜、明亮的祈禱與沉思空間；以柔和自然光、白色與淡金色為主。'},
+{id:'library',name:'書房',floor:'3F',img:'assets/library.jpg',note:'安靜閱讀、研究與個人工作的空間。'},
+{id:'master',name:'主人房',floor:'3F',img:'assets/master.jpg',note:'寬敞的主人套房，延續莊園的白金色系與安靜氛圍。'},
+{id:'theater',name:'電影院',floor:'2F',img:'assets/theater.jpg',note:'家庭劇院，以深色聲學空間與舒適座椅為主。'},
+{id:'gym',name:'健身房',floor:'2F',img:'assets/gym.jpg',note:'採光良好的健身空間，可連接室內泳池與更衣區。'},
+{id:'game-room',name:'撞球間',floor:'2F',img:'assets/game-room.jpg',note:'採光好撞球間'},
+{id:'kitchen',name:'廚房',floor:'1F',img:'assets/kitchen.jpg',note:'採光好廚房'},
+{id:'park',name:'停車場',floor:'B1',img:'assets/park.jpg',note:'高級停車場'},
+{id:'pool',name:'室內泳池',floor:'2F',img:'assets/pool.jpg',note:'全年可使用的室內泳池，強調自然採光與度假感。'}
+];
+
+const domeFacilities=[
+  {id:'kids-play',name:'兒童遊憩區',img:'assets/c.jpg',note:'適合兒童自由遊戲的安全空間，可規劃軟墊、攀爬、溜滑梯與互動遊具。'},
+  {id:'family-play',name:'親子遊樂區',img:'assets/b.jpg',note:'親子可共同參與的遊樂空間，強調陪伴、互動與家庭活動。'},
+  {id:'toddler',name:'幼兒安全遊戲室',img:'assets/e.jpg',note:'為幼兒設計的低高度、軟質、安全遊戲設施，與較大兒童區分流。'},
+  {id:'reading',name:'親子閱讀教室',img:'assets/d.jpg',note:'舒適明亮的親子閱讀空間，配置低矮書架、沙發與閱讀座位。'},
+  {id:'craft',name:'手作教室',img:'assets/g.jpg',note:'可進行繪畫、手作、課程與家庭共同創作的多功能教室。'},
+  {id:'family-lounge',name:'家庭休息區',img:'assets/a.jpg',note:'提供家長休息、看顧兒童與家庭短暫休憩的座位區。'},
+  {id:'cafe',name:'親子輕食區',img:'assets/f.jpg',note:'結合休息與輕食的空間，可眺望遊戲區並方便家長陪伴兒童。'}
+];
+
+function renderDome(){
+  document.getElementById('domeGrid').innerHTML=domeFacilities.map((r,i)=>`
+    <button class="dome-card" onclick="openDomeFacility(${i})">
+      <img src="${r.img}" alt="${r.name}">
+      <div><b>${r.name}</b><small>圓頂會館・點擊進入</small></div>
+    </button>`).join('');
+}
+function openDome(){closeDrawer();document.getElementById('domeDrawer').classList.add('open')}
+function closeDome(){document.getElementById('domeDrawer').classList.remove('open')}
+function openDomeFacility(i){
+  closeDome();
+  const r=domeFacilities[i];
+  const v=document.getElementById('viewer');v.classList.add('open');
+  const s=document.getElementById('scene');s.style.backgroundImage=`url('${r.img}')`;s.style.backgroundPosition='50% 50%';
+  document.getElementById('viewerName').textContent=r.name;
+  document.getElementById('viewerFloor').textContent='圓頂會館・親子設施';
+  document.getElementById('noteTitle').textContent=r.name;
+  document.getElementById('noteText').textContent=r.note;
+  document.querySelector('.viewer-bottom').style.display='none';
+}
+
+let current=0;
+const estateScenes={day:'assets/estate-day.jpg',sunset:'assets/estate-sunset.jpg',night:'assets/estate-night.jpg'};
+document.querySelectorAll('.timebtn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.timebtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('estateImg').src=estateScenes[b.dataset.scene]});
+function renderStrip(){const e=document.getElementById('bottomStrip');e.innerHTML=rooms.map((r,i)=>`<button class="room-chip" onclick="openRoom(${i})"><img src="${r.img}" alt="${r.name}"><span>${r.name}</span></button>`).join('')}
+function renderFloor(f='1F'){document.querySelectorAll('.floorbtn').forEach(b=>b.classList.toggle('active',b.dataset.floor===f));const list=rooms.filter(r=>r.floor===f);document.getElementById('floorplan').innerHTML=list.map(r=>{const i=rooms.indexOf(r);return `<button class="room-card" onclick="openRoom(${i})"><img src="${r.img}" alt="${r.name}"><div><b>${r.name}</b><small>${r.floor}・點擊進入</small></div></button>`}).join('')}
+document.querySelectorAll('.floorbtn').forEach(b=>b.onclick=()=>renderFloor(b.dataset.floor));
+function openDrawer(){document.getElementById('drawer').classList.add('open')} function closeDrawer(){document.getElementById('drawer').classList.remove('open')}
+function openRoom(i){current=i;closeDrawer();closeDome();document.querySelector('.viewer-bottom').style.display='flex';const r=rooms[i];const v=document.getElementById('viewer');v.classList.add('open');const s=document.getElementById('scene');s.style.backgroundImage=`url('${r.img}')`;s.style.backgroundPosition='50% 50%';document.getElementById('viewerName').textContent=r.name;document.getElementById('viewerFloor').textContent=`主建築・${r.floor}`;document.getElementById('noteTitle').textContent=r.name;document.getElementById('noteText').textContent=r.note}
+function closeViewer(){document.getElementById('viewer').classList.remove('open');document.querySelector('.viewer-bottom').style.display='flex'} function prevRoom(){openRoom((current-1+rooms.length)%rooms.length)} function nextRoom(){openRoom((current+1)%rooms.length)} function openDrawerFromViewer(){closeViewer();openDrawer();renderFloor(rooms[current].floor)}
+let drag=false,startX=0,pos=50;const scene=document.getElementById('scene');
+function down(x){drag=true;startX=x} function move(x){if(!drag)return;pos=Math.max(10,Math.min(90,pos+(startX-x)*.045));startX=x;scene.style.backgroundPosition=`${pos}% 50%`} function up(){drag=false}
+scene.addEventListener('mousedown',e=>down(e.clientX));window.addEventListener('mousemove',e=>move(e.clientX));window.addEventListener('mouseup',up);scene.addEventListener('touchstart',e=>down(e.touches[0].clientX),{passive:true});scene.addEventListener('touchmove',e=>move(e.touches[0].clientX),{passive:true});scene.addEventListener('touchend',up);
+renderStrip();renderFloor();renderDome();
+</script>
+</body></html>
