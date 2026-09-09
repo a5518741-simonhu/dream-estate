@@ -81,6 +81,32 @@ nav{display:flex;align-items:center;gap:6px;flex:1}.navbtn,.timebtn{border:1px s
 
 /* Hide estate status/info panel */
 .info{display:none !important;}
+
+/* 圓頂會館：隱藏水滴圖示，但保留文字連結 */
+.hotspot.facility[onclick="openDome()"] .pin{display:none !important;}
+.hotspot.facility[onclick="openDome()"] strong{margin-top:0;}
+
+
+/* 主建築・進入參觀：背景框透明 */
+.hotspot.main strong{
+  background:transparent !important;
+  border-color:transparent !important;
+  box-shadow:none !important;
+}
+
+
+/* 全站地圖標記：移除所有水滴圖示，保留文字與點擊功能 */
+.hotspot .pin{display:none !important;}
+.hotspot strong{margin-top:0;}
+
+
+/* 戶外設施文字標籤：背景框全部透明 */
+.hotspot.facility strong{
+  background:transparent !important;
+  border-color:transparent !important;
+  box-shadow:none !important;
+}
+
 </style>
 </head>
 <body>
