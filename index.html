@@ -157,7 +157,15 @@ function renderDome(){
 }
 function openDome(){closeDrawer();document.getElementById('domeDrawer').classList.add('open')}
 function closeDome(){document.getElementById('domeDrawer').classList.remove('open')}
+
+function updateViewerCenterButton(){
+  const btns=document.querySelectorAll('.viewer-bottom button');
+  if(btns[1]) btns[1].textContent = currentMode==='dome' ? '圓頂會館' : '位置圖';
+}
+
 function openDomeFacility(i){
+  currentMode='dome';
+  currentDome=i;
   closeDome();
   const r=domeFacilities[i];
   const v=document.getElementById('viewer');v.classList.add('open');
@@ -166,18 +174,34 @@ function openDomeFacility(i){
   document.getElementById('viewerFloor').textContent='圓頂會館・親子設施';
   document.getElementById('noteTitle').textContent=r.name;
   document.getElementById('noteText').textContent=r.note;
-  document.querySelector('.viewer-bottom').style.display='none';
+  document.querySelector('.viewer-bottom').style.display='flex';
+  updateViewerCenterButton();
 }
 
 let current=0;
+let currentMode='room';
+let currentDome=0;
 const estateScenes={day:'assets/estate-day.jpg',sunset:'assets/estate-sunset.jpg',night:'assets/estate-night.jpg'};
 document.querySelectorAll('.timebtn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.timebtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('estateImg').src=estateScenes[b.dataset.scene]});
 function renderStrip(){const e=document.getElementById('bottomStrip');e.innerHTML=rooms.map((r,i)=>`<button class="room-chip" onclick="openRoom(${i})"><img src="${r.img}" alt="${r.name}"><span>${r.name}</span></button>`).join('')}
 function renderFloor(f='1F'){document.querySelectorAll('.floorbtn').forEach(b=>b.classList.toggle('active',b.dataset.floor===f));const list=rooms.filter(r=>r.floor===f);document.getElementById('floorplan').innerHTML=list.map(r=>{const i=rooms.indexOf(r);return `<button class="room-card" onclick="openRoom(${i})"><img src="${r.img}" alt="${r.name}"><div><b>${r.name}</b><small>${r.floor}・點擊進入</small></div></button>`}).join('')}
 document.querySelectorAll('.floorbtn').forEach(b=>b.onclick=()=>renderFloor(b.dataset.floor));
 function openDrawer(){document.getElementById('drawer').classList.add('open')} function closeDrawer(){document.getElementById('drawer').classList.remove('open')}
-function openRoom(i){current=i;closeDrawer();closeDome();document.querySelector('.viewer-bottom').style.display='flex';const r=rooms[i];const v=document.getElementById('viewer');v.classList.add('open');const s=document.getElementById('scene');s.style.backgroundImage=`url('${r.img}')`;s.style.backgroundPosition='50% 50%';document.getElementById('viewerName').textContent=r.name;document.getElementById('viewerFloor').textContent=`主建築・${r.floor}`;document.getElementById('noteTitle').textContent=r.name;document.getElementById('noteText').textContent=r.note}
-function closeViewer(){document.getElementById('viewer').classList.remove('open');document.querySelector('.viewer-bottom').style.display='flex'} function prevRoom(){openRoom((current-1+rooms.length)%rooms.length)} function nextRoom(){openRoom((current+1)%rooms.length)} function openDrawerFromViewer(){closeViewer();openDrawer();renderFloor(rooms[current].floor)}
+function openRoom(i){currentMode='room';current=i;closeDrawer();closeDome();document.querySelector('.viewer-bottom').style.display='flex';const r=rooms[i];const v=document.getElementById('viewer');v.classList.add('open');const s=document.getElementById('scene');s.style.backgroundImage=`url('${r.img}')`;s.style.backgroundPosition='50% 50%';document.getElementById('viewerName').textContent=r.name;document.getElementById('viewerFloor').textContent=`主建築・${r.floor}`;document.getElementById('noteTitle').textContent=r.name;document.getElementById('noteText').textContent=r.note;updateViewerCenterButton()}
+function closeViewer(){document.getElementById('viewer').classList.remove('open');document.querySelector('.viewer-bottom').style.display='flex'}
+function prevRoom(){
+  if(currentMode==='dome') openDomeFacility((currentDome-1+domeFacilities.length)%domeFacilities.length);
+  else openRoom((current-1+rooms.length)%rooms.length);
+}
+function nextRoom(){
+  if(currentMode==='dome') openDomeFacility((currentDome+1)%domeFacilities.length);
+  else openRoom((current+1)%rooms.length);
+}
+function openDrawerFromViewer(){
+  closeViewer();
+  if(currentMode==='dome') openDome();
+  else {openDrawer();renderFloor(rooms[current].floor)}
+}
 let drag=false,startX=0,pos=50;const scene=document.getElementById('scene');
 function down(x){drag=true;startX=x} function move(x){if(!drag)return;pos=Math.max(10,Math.min(90,pos+(startX-x)*.045));startX=x;scene.style.backgroundPosition=`${pos}% 50%`} function up(){drag=false}
 scene.addEventListener('mousedown',e=>down(e.clientX));window.addEventListener('mousemove',e=>move(e.clientX));window.addEventListener('mouseup',up);scene.addEventListener('touchstart',e=>down(e.touches[0].clientX),{passive:true});scene.addEventListener('touchmove',e=>move(e.touches[0].clientX),{passive:true});scene.addEventListener('touchend',up);
