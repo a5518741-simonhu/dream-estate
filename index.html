@@ -29,7 +29,37 @@ nav{display:flex;align-items:center;gap:6px;flex:1}.navbtn,.timebtn{border:1px s
 .dome-card div{padding:10px}.dome-card b{display:block}.dome-card small{color:#93a7b8}
 .dome-card:hover{border-color:var(--gold);transform:translateY(-1px)}.drawer h2{font-family:Georgia,"Noto Serif TC";color:#f5deb0;margin:0 0 5px}.drawer .sub{color:#aebdca;font-size:13px;margin-bottom:18px}.close{position:absolute;right:14px;top:14px;border:1px solid #52606b;background:#12293c;color:white;border-radius:8px;padding:7px 10px;cursor:pointer}.floors{display:flex;gap:8px;margin-bottom:18px}.floorbtn{flex:1;border:1px solid #3a5266;background:#0d2133;color:#dfe8ef;padding:10px;border-radius:8px;cursor:pointer}.floorbtn.active{border-color:var(--gold);color:#ffe1a5;background:rgba(215,184,121,.12)}.floorplan{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.room-card{border:1px solid rgba(255,255,255,.15);background:#0d2133;border-radius:12px;overflow:hidden;cursor:pointer;text-align:left;color:white}.room-card img{width:100%;height:115px;object-fit:cover;display:block}.room-card div{padding:10px}.room-card b{display:block}.room-card small{color:#93a7b8}.room-card:hover{border-color:var(--gold);transform:translateY(-1px)}
 .viewer{position:fixed;z-index:60;inset:0;background:#050b10;display:none}.viewer.open{display:block}.scene{position:absolute;inset:0;background-position:center;background-size:cover;transition:background-position .12s linear;filter:saturate(.95)}.scene:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),transparent 22%,transparent 72%,rgba(0,0,0,.62))}.viewer-top{position:absolute;z-index:3;top:0;left:0;right:0;height:74px;display:flex;align-items:center;padding:10px 20px;background:linear-gradient(180deg,rgba(4,14,23,.9),transparent)}.back{border:1px solid rgba(255,255,255,.4);background:rgba(5,19,31,.72);color:white;border-radius:10px;padding:10px 14px;cursor:pointer}.viewer-title{margin-left:18px}.viewer-title b{font-size:22px;color:#f4ddb0}.viewer-title small{display:block;color:#c7d3dd}.viewer-bottom{position:absolute;z-index:3;left:50%;bottom:24px;transform:translateX(-50%);display:flex;gap:10px;background:rgba(5,18,31,.74);border:1px solid var(--line);border-radius:14px;padding:9px;backdrop-filter:blur(10px)}.viewer-bottom button{border:1px solid rgba(255,255,255,.25);background:#0d2133;color:#fff;border-radius:9px;padding:10px 16px;cursor:pointer}.viewer-note{position:absolute;z-index:3;right:24px;bottom:104px;width:min(330px,72vw);padding:16px;background:rgba(248,244,234,.9);color:#443826;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25)}.viewer-note h3{margin:0 0 7px;color:#6d552f}.viewer-note p{margin:0;line-height:1.6;font-size:14px}.drag-hint{position:absolute;z-index:3;left:50%;top:95px;transform:translateX(-50%);padding:7px 12px;border-radius:16px;background:rgba(0,0,0,.45);font-size:12px;color:#dde7ef}
-@media(max-width:900px){header{height:68px;padding:8px 12px}.brand{min-width:0}.brand h1{font-size:19px}.brand small{display:none}.crest{width:40px;height:40px;font-size:20px}.navbtn{display:none}.time{margin-left:auto}.map-wrap{padding-top:68px}.map-img,.map-shade{inset-top:68px}.info{top:86px;left:12px;width:205px;padding:13px}.info .big{font-size:22px}.hotspot strong{font-size:11px}.bottom-strip{justify-content:flex-start;padding-left:10px}.room-chip{min-width:95px}.room-chip img{height:54px}.viewer-note{right:12px;bottom:92px}.viewer-bottom{bottom:18px}.hotspot.facility{display:none}}
+@media(max-width:900px){
+  header{height:68px;padding:7px 10px;gap:8px}
+  .brand{min-width:0;flex:0 0 auto}.brand h1{font-size:18px;letter-spacing:.06em}.brand small{display:none}
+  .crest{width:38px;height:38px;font-size:19px;margin-right:8px}
+  .navbtn{display:none}.time{margin-left:auto;gap:2px;min-width:0}.timebtn{padding:8px 7px;font-size:13px;white-space:nowrap}
+  .map-wrap{height:100dvh;min-height:620px;padding-top:68px;overflow:hidden}
+  .map-img{inset:68px 0 0;height:calc(100dvh - 68px);object-fit:cover;object-position:center top}
+  .map-shade{inset:68px 0 0}
+  .info{top:86px;left:10px;width:min(205px,58vw);padding:12px}.info .big{font-size:21px}.info p{font-size:12px}.info .hint{line-height:1.45}
+  .hotspot.main{top:53%!important}.hotspot.main .pin{width:48px;height:48px}.hotspot.main strong{font-size:13px;padding:6px 9px}
+  .hotspot strong{font-size:11px}.hotspot.facility{display:none}
+  .bottom-strip{left:0;right:0;bottom:0;justify-content:flex-start;gap:8px;padding:10px 10px calc(12px + env(safe-area-inset-bottom));overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+  .bottom-strip::-webkit-scrollbar{display:none}
+  .room-chip{flex:0 0 112px;min-width:112px;scroll-snap-align:start}.room-chip img{height:66px}.room-chip span{font-size:12px;padding:7px 5px;white-space:normal;min-height:43px}
+  .drawer,.dome-drawer{top:68px;width:100vw;right:-100vw;padding:18px 14px}.drawer.open,.dome-drawer.open{right:0}
+  .floorplan,.dome-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.room-card img,.dome-card img{height:100px}
+  .viewer-top{height:66px;padding:8px 10px}.viewer-title{margin-left:10px}.viewer-title b{font-size:18px}
+  .drag-hint{top:76px}.viewer-note{right:10px;left:10px;bottom:92px;width:auto;padding:12px}.viewer-bottom{bottom:14px;width:calc(100% - 20px);justify-content:center}.viewer-bottom button{padding:9px 10px;font-size:13px}
+}
+/* 手機版：優先完整顯示莊園鳥瞰圖，不再左右裁切 */
+@media(max-width:900px){
+  .map-wrap{background:#07111c}
+  .map-img{object-fit:contain;object-position:center center;background:#07111c}
+  .map-shade{background:linear-gradient(0deg,rgba(0,10,18,.42),transparent 30%)}
+}
+@media(max-width:430px){
+  .brand h1{font-size:17px}.crest{width:34px;height:34px}.timebtn{font-size:12px;padding:7px 5px}
+  .info{width:54vw;max-height:42vh;overflow:auto}.info hr{margin:8px 0}
+  .room-chip{flex-basis:104px;min-width:104px}.room-chip img{height:61px}
+}
+
 </style>
 </head>
 <body>
@@ -69,7 +99,7 @@ const rooms=[
 {id:'dining',name:'餐廳',floor:'1F',img:'assets/dining.jpg',note:'正式餐敘空間，可由大廳與庭院兩側進入。'},
 {id:'prayer',name:'祈禱室（高榮室風格）',floor:'3F',img:'assets/prayer-room.jpg',note:'純白、寧靜、明亮的祈禱與沉思空間；以柔和自然光、白色與淡金色為主。'},
 {id:'library',name:'書房',floor:'3F',img:'assets/library.jpg',note:'安靜閱讀、研究與個人工作的空間。'},
-{id:'master',name:'主人房',floor:'3F',img:'assets/assets/master.jpg',note:'寬敞的主人套房，延續莊園的白金色系與安靜氛圍。'},
+{id:'master',name:'主人房',floor:'3F',img:'assets/master.jpg',note:'寬敞的主人套房，延續莊園的白金色系與安靜氛圍。'},
 {id:'theater',name:'電影院',floor:'2F',img:'assets/theater.jpg',note:'家庭劇院，以深色聲學空間與舒適座椅為主。'},
 {id:'gym',name:'健身房',floor:'2F',img:'assets/gym.jpg',note:'採光良好的健身空間，可連接室內泳池與更衣區。'},
 {id:'game-room',name:'撞球間',floor:'2F',img:'assets/game-room.jpg',note:'採光好撞球間'},
