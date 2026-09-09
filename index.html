@@ -75,6 +75,20 @@ nav{display:flex;align-items:center;gap:6px;flex:1}.navbtn,.timebtn{border:1px s
 @media(max-width:430px){
   .hotspot.facility[onclick="openDome()"]{left:76% !important;top:35% !important}
 }
+
+/* 手機專用：固定顯示圓頂會館入口，避免地圖標記因圖片比例或瀏覽器快取而看不到 */
+.mobile-dome-btn{display:none}
+@media(max-width:900px){
+  .mobile-dome-btn{
+    display:flex;position:absolute;z-index:12;right:12px;top:82px;
+    align-items:center;gap:7px;padding:9px 12px;border-radius:999px;
+    border:1px solid rgba(246,215,151,.75);background:rgba(3,13,23,.88);
+    color:#ffe7b6;font-weight:700;font-size:13px;box-shadow:0 6px 18px rgba(0,0,0,.35);
+    backdrop-filter:blur(8px);cursor:pointer;
+  }
+  .mobile-dome-btn .dot{width:10px;height:10px;border-radius:50%;background:#f4d38f;box-shadow:0 0 0 3px rgba(244,211,143,.18)}
+}
+
 </style>
 </head>
 <body>
@@ -88,6 +102,7 @@ nav{display:flex;align-items:center;gap:6px;flex:1}.navbtn,.timebtn{border:1px s
 <section class="map-wrap">
   <img id="estateImg" class="map-img" src="assets/estate-day.jpg" alt="夢想莊園鳥瞰圖" />
   <div class="map-shade"></div>
+  <button class="mobile-dome-btn" onclick="openDome()" aria-label="進入圓頂會館"><span class="dot"></span>圓頂會館</button>
   <aside class="info"><div>☀ <span class="big">12:00</span></div><p>6 月 21 日・晴朗</p><p>氣溫：32°C</p><p>莊園狀態：開放參觀</p><hr><p class="hint">點選地圖上的位置標記，進入主建築與各個空間參觀。</p></aside>
   <button class="hotspot main" style="left:50%;top:50%" onclick="openDrawer()"><span class="pin"></span><strong>主建築・進入參觀</strong></button>
   <button class="hotspot facility" style="left:34%;top:27%"><span class="pin"></span><strong>網球場</strong></button>
